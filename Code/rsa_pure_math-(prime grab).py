@@ -27,7 +27,7 @@ def generate_keypair(key_length):
 
 def generate_prime_number(key_length):
     # Función para coger un número primo aleatorio de los almacenados en el archivo
-    file_name = f"prime-numbers-{key_length}.json"
+    file_name = f"prime_numbers_{key_length}_digits.json"
     if not os.path.exists(file_name):
         raise FileNotFoundError(f"Prime number file {file_name} not found.")
     with open(file_name, 'r') as file:
