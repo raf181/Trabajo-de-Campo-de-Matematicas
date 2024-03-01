@@ -1,6 +1,8 @@
 import json
 import os
 import random
+import time
+import csv
 
 def generate_keypair(key_length):
     # Paso 1: Elegir dos números primos distintos p y q
@@ -65,18 +67,56 @@ def modular_inverse(a, m): # Función para calcular el inverso multiplicativo mo
     return x1 + m0 if x1 < 0 else x1
 
 
+# Number of runs
+num_runs = 10
+# Range of key lengths to test
+key_length_range = range(1, 26)
+# List to store run-specific timing results
+all_run_results = []
 
-public_key, private_key = generate_keypair(key_length=8)  # Replace * with the desired key length
-message = 27575756757671
+for key_length in key_length_range:
+    key_length_results = {"Key Length": key_length}
 
-# Función de cifrado
-ciphertext = pow(message, public_key[1], public_key[0])
-# Función de descifrado
-decrypted_message = pow(ciphertext, private_key[1], private_key[0])
+    for run in range(1, num_runs + 1):
+        # Dictionary to store timing results for the current run
+        run_results = {"Run": run}
 
-print(f"Public Key: {public_key}")
-print(f"Private Key: {private_key}")
-print(f"=================================================================================================")
-print(f"Original Message: {message}")
-print(f"Encrypted Message: {ciphertext}")
-print(f"Decrypted Message: {decrypted_message}")
+        # Generate Key Pair
+        start_time_keygen = time.perf_counter()
+        public_key, private_key = generate_keypair(key_length)  
+        end_time_keygen = time.perf_counter()
+        run_results["Key Generation"] = end_time_keygen - start_time_keygen
+
+        # Sample Message
+        message = 27575756757671
+
+        # Encryption
+        start_time_encryption = time.perf_counter()
+        ciphertext = pow(message, public_key[1], public_key[0])
+        end_time_encryption = time.perf_counter()
+        run_results["Encryption"] = end_time_encryption - start_time_encryption
+
+        # Decryption
+        start_time_decryption = time.perf_counter()
+        decrypted_message = pow(ciphertext, private_key[1], private_key[0])
+        end_time_decryption = time.perf_counter()
+        run_results["Decryption"] = end_time_decryption - start_time_decryption
+
+        # Total (Encryption + Decryption)
+        run_results["Total (Encryption + Decryption)"] = run_results["Encryption"] + run_results["Decryption"]
+
+        # Append results for the current run to the list
+        all_run_results.append({**key_length_results, **run_results})
+
+# Save Run-Specific Results to CSV
+csv_file = "key_length_results.csv"
+header = ["Key Length", "Run", "Key Generation", "Encryption", "Decryption", "Total (Encryption + Decryption)"]
+
+with open(csv_file, mode="w", newline='') as file:
+    writer = csv.DictWriter(file, fieldnames=header)
+    writer.writeheader()
+    writer.writerows(all_run_results)
+
+# Output Run-Specific Results
+print("=================================================================================================")
+print(f"Run-specific results saved to: {csv_file}")
