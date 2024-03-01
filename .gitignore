@@ -1,0 +1,6 @@
+prime-gen/target/
+prime-gen-multy/target/
+Code/rsa/__pycache__/
+Code/rsa_rust/target/
+*.docx
+*.exe
