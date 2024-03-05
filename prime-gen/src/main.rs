@@ -56,7 +56,7 @@ fn main() -> io::Result<()> {
     let start_time = Instant::now();
 
     // Generate and save primes for each length from 1 to 50
-    for length in 25..=50 {
+    for length in 26..=50 {
         let result = find_primes_with_length(length, 5);
 
         // Save results to a JSON file
