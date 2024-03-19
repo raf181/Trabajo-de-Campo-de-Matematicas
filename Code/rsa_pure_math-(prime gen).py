@@ -1,3 +1,7 @@
+# =============================================================================
+# Title: RSA Encryption and Decryption using Pure Math
+# author: IB student KKJ634 (raf181)
+# =============================================================================
 import random
 
 def generate_keypair(key_length):

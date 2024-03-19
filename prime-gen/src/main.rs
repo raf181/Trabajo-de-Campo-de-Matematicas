@@ -1,6 +1,8 @@
 // ============================================================================ //
-// This program generates prime numbers of a given length and saves them to a file
-// for use in the RSA encryption algorithm.
+// Titulo: Prime Number Generator
+// autor: IB student KKJ634 (raf181)
+// Descripción:
+// Este programa genera números primos de una longitud específica y los guarda en
 //
 // Single core variant of the prime-gen program.
 //

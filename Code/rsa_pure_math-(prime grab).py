@@ -1,3 +1,8 @@
+# =============================================================================
+# Titulo: RSA Encryption and Decryption using Pure Math
+# autor: IB student KKJ634 (raf181)
+# =============================================================================
+
 import json
 import os
 import random
@@ -66,40 +71,41 @@ def modular_inverse(a, m): # Función para calcular el inverso multiplicativo mo
     # Si x1 es negativo, suma m0 para hacerlo positivo
     return x1 + m0 if x1 < 0 else x1
 
-
-# Number of runs
+# Número de ejecuciones
 num_runs = 10
-# Range of key lengths to test
+# Rango de longitudes de clave para probar
 key_length_range = range(1, 26)
-# List to store run-specific timing results
+# Lista para almacenar los resultados de tiempo específicos de ejecución
 all_run_results = []
 
 for key_length in key_length_range:
     key_length_results = {"Key Length": key_length}
 
     for run in range(1, num_runs + 1):
-        # Dictionary to store timing results for the current run
+        # Carpeta de resultados de ejecución
         run_results = {"Run": run}
 
-        # Generate Key Pair
+        # cogemos llave pública y privada de acuerdo al tamaño de la llave
         start_time_keygen = time.perf_counter()
         public_key, private_key = generate_keypair(key_length)  
         end_time_keygen = time.perf_counter()
         run_results["Key Generation"] = end_time_keygen - start_time_keygen
 
-        # Sample Message
+        # Mensaje a encriptar en ACII (ejemplo: "HELLO" -> 72 69 76 76 79)
         message = 27575756757671
 
-        # Encryption
+        # Enciptamos el mensaje con la clave pública
         start_time_encryption = time.perf_counter()
         ciphertext = pow(message, public_key[1], public_key[0])
         end_time_encryption = time.perf_counter()
+        # Guardamos el tiempo que tarda en encriptar
         run_results["Encryption"] = end_time_encryption - start_time_encryption
 
-        # Decryption
+        # Desencriptamos el mensaje con la clave privada
         start_time_decryption = time.perf_counter()
         decrypted_message = pow(ciphertext, private_key[1], private_key[0])
         end_time_decryption = time.perf_counter()
+        # Guardamos el tiempo que tarda en desencriptar
         run_results["Decryption"] = end_time_decryption - start_time_decryption
 
         # Total (Encryption + Decryption)
@@ -108,7 +114,7 @@ for key_length in key_length_range:
         # Append results for the current run to the list
         all_run_results.append({**key_length_results, **run_results})
 
-# Save Run-Specific Results to CSV
+# Guradamos los resultados de cada ejecución en un archivo CSV
 csv_file = "key_length_results.csv"
 header = ["Key Length", "Run", "Key Generation", "Encryption", "Decryption", "Total (Encryption + Decryption)"]
 
@@ -117,6 +123,6 @@ with open(csv_file, mode="w", newline='') as file:
     writer.writeheader()
     writer.writerows(all_run_results)
 
-# Output Run-Specific Results
+# Mostramos los resultados de cada ejecución
 print("=================================================================================================")
 print(f"Run-specific results saved to: {csv_file}")
