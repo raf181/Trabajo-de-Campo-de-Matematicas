@@ -1,6 +1,5 @@
 # =============================================================================
-# Titulo: RSA Encryption and Decryption using Pure Math
-# autor: IB student KKJ634 (raf181)
+# Titulo: RSA Encryption and Decryption using Pure Mathematics
 # =============================================================================
 
 import json
